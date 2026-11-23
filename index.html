@@ -7,9 +7,9 @@
 <title>Александра &amp; Иван — 7 августа 2027</title>
 <meta name="description" content="Приглашаем вас на нашу свадьбу — 7 августа 2027 года.">
 <meta property="og:title" content="Александра &amp; Иван — приглашение на свадьбу">
-<meta property="og:description" content="7 агуста 2027. Будем счастливы видеть вас!">
+<meta property="og:description" content="7 августа 2027. Будем счастливы видеть вас!">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#faf7f2">
+<meta name="theme-color" content="#fbfaf7">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,14 +18,23 @@
 <style>
 /* ============ 1. ПЕРЕМЕННЫЕ И БАЗА ============ */
 :root{
-  --bg:        #faf7f2;
-  --bg-alt:    #f4ece2;
-  --ink:       #2b2622;
-  --muted:     #7c7168;
-  --gold:      #b08d57;
-  --gold-soft: #dcc7a6;
-  --blush:     #ead9d0;
-  --line:      #e6dccd;
+  --bg:          #fbfaf7;
+  --bg-alt:      #f2eee7;
+  --blue-mist:   #eef1f8;
+
+  --ink:         #2a3038;
+  --muted:       #7d8795;
+
+  /* ЗОЛОТО — акцент для ТЕКСТА */
+  --gold:        #b08d57;
+  --gold-soft:   #dcc7a6;
+
+  /* ГОЛУБОЙ (насыщенный steel-blue) — ДЕКОР */
+  --blue:        #5d7fb0;
+  --blue-soft:   #b9c7dd;
+  --blue-pale:   #dde5f0;
+
+  --line:        #e4e0d7;
   --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --sans:  'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -47,21 +56,57 @@ body{
 }
 
 img{ max-width:100%; display:block; }
-
 a{ color:var(--gold); }
 
 /* ============ 2. ХЕЛПЕРЫ ============ */
 .wrap{
   width:min(1060px, 100% - 2.5rem);
   margin-inline:auto;
+  position:relative;
+  z-index:1;
 }
 
 .section{
-  padding: clamp(3.5rem, 9vw, 7rem) 0;
+  padding:clamp(3.5rem, 9vw, 7rem) 0;
+  position:relative;
+  overflow:hidden;
 }
 
-.section--alt{
-  background:var(--bg-alt);
+/* Уголки-скобки (CSS, без SVG) */
+.section::before,
+.section::after{
+  content:"";
+  position:absolute;
+  width:clamp(34px, 5vw, 60px);
+  height:clamp(34px, 5vw, 60px);
+  border-color:var(--blue);
+  border-style:solid;
+  border-width:0;
+  opacity:.3;
+  pointer-events:none;
+  z-index:0;
+}
+.section::before{
+  top:clamp(16px, 3vw, 28px);
+  left:clamp(16px, 3vw, 28px);
+  border-top-width:1px;
+  border-left-width:1px;
+}
+.section::after{
+  bottom:clamp(16px, 3vw, 28px);
+  right:clamp(16px, 3vw, 28px);
+  border-bottom-width:1px;
+  border-right-width:1px;
+}
+
+.section--alt{ background:var(--bg-alt); }
+
+/* Голубая секция с акварельными пятнами */
+.section--mist{
+  background:
+    radial-gradient(560px 320px at 88% 6%, rgba(93,127,176,.16) 0%, rgba(93,127,176,0) 70%),
+    radial-gradient(520px 300px at 8% 94%, rgba(93,127,176,.14) 0%, rgba(93,127,176,0) 70%),
+    var(--blue-mist);
 }
 
 .section-title{
@@ -82,13 +127,13 @@ a{ color:var(--gold); }
   margin:0 auto 3rem;
 }
 
+/* Разделитель: золотая линия + голубой ромб */
 .divider{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:1rem;
+  gap:.9rem;
   margin:1.4rem 0 2.6rem;
-  color:var(--gold);
 }
 .divider span{
   height:1px;
@@ -98,9 +143,31 @@ a{ color:var(--gold); }
 .divider span:last-child{
   background:linear-gradient(270deg, transparent, var(--gold-soft));
 }
-.divider svg{ flex:none; opacity:.85; }
+.divider i{
+  display:block;
+  width:7px;
+  height:7px;
+  background:var(--blue);
+  transform:rotate(45deg);
+  box-shadow:0 0 0 3px rgba(93,127,176,.22);
+}
 
-/* ============ 3. HERO ============ */
+/* ============ 3. ОПЦИОНАЛЬНЫЕ КАРТИНКИ-ДЕКОР ============ */
+/* Работает, если вы положите свои PNG/JPG в папку img/ и вставите теги. */
+.decor-img{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  width:clamp(100px, 14vw, 170px);
+  height:auto;
+  opacity:.35;
+}
+.decor-img--tl{ top:0; left:0; }
+.decor-img--tr{ top:0; right:0; transform:scaleX(-1); }
+.decor-img--bl{ bottom:0; left:0; transform:scaleY(-1); }
+.decor-img--br{ bottom:0; right:0; transform:scale(-1,-1); }
+
+/* ============ 4. HERO ============ */
 .hero{
   position:relative;
   min-height:100vh;
@@ -108,13 +175,14 @@ a{ color:var(--gold); }
   display:grid;
   place-items:center;
   text-align:center;
-  padding:6rem 1.25rem 5rem;
+  padding:5rem 1.25rem 6rem;
   overflow:hidden;
   background:
+    radial-gradient(760px 460px at 18% 8%,  rgba(93,127,176,.26) 0%, rgba(93,127,176,0) 70%),
+    radial-gradient(820px 480px at 82% 92%, rgba(93,127,176,.22) 0%, rgba(93,127,176,0) 72%),
     radial-gradient(1100px 520px at 50% -8%, #ffffff 0%, rgba(255,255,255,0) 62%),
-    radial-gradient(760px 420px at 84% 108%, var(--blush) 0%, rgba(234,217,208,0) 70%),
-    radial-gradient(700px 380px at 12% 96%, #e8ecdf 0%, rgba(232,236,223,0) 72%),
-    linear-gradient(180deg, #fdfbf7 0%, #f5ede3 100%);
+    radial-gradient(680px 380px at 10% 98%, #efe8db 0%, rgba(239,232,219,0) 72%),
+    linear-gradient(180deg, #fdfcf9 0%, #f2eee6 100%);
 }
 .hero::before{
   content:"";
@@ -122,18 +190,58 @@ a{ color:var(--gold); }
   inset:clamp(12px, 3vw, 30px);
   border:1px solid var(--gold-soft);
   border-radius:2px;
-  opacity:.65;
+  opacity:.7;
   pointer-events:none;
+  z-index:0;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:clamp(12px, 3vw, 30px);
+  border:1px solid var(--blue-soft);
+  border-radius:2px;
+  opacity:.55;
+  pointer-events:none;
+  z-index:0;
+  transform:translate(6px, 6px);
 }
 
 .hero__inner{
   position:relative;
-  z-index:1;
+  z-index:2;
   max-width:760px;
+  width:100%;
+}
+
+/* Орнамент над именами: золотые линии + голубой ромб */
+.hero-ornament{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.9rem;
+  margin:0 0 1.6rem;
+}
+.hero-ornament::before,
+.hero-ornament::after{
+  content:"";
+  height:1px;
+  width:44px;
+  background:linear-gradient(90deg, transparent, var(--gold-soft));
+}
+.hero-ornament::after{
+  background:linear-gradient(270deg, transparent, var(--gold-soft));
+}
+.hero-ornament i{
+  display:block;
+  width:7px;
+  height:7px;
+  background:var(--blue);
+  transform:rotate(45deg);
+  box-shadow:0 0 0 3px rgba(93,127,176,.22);
 }
 
 .eyebrow{
-  margin:0 0 1.6rem;
+  margin:0 0 1.4rem;
   font-size:.7rem;
   letter-spacing:.34em;
   text-transform:uppercase;
@@ -158,21 +266,21 @@ a{ color:var(--gold); }
 }
 
 .hero__date{
-  margin:2rem 0 0;
+  margin:1.4rem 0 0;
   font-size:clamp(.72rem, 2.4vw, .86rem);
   letter-spacing:.36em;
   text-transform:uppercase;
-  color:var(--muted);
+  color:var(--gold);
 }
 
 .personal{
-  margin:2.2rem auto 0;
+  margin:1.8rem auto 0;
   max-width:34ch;
   font-family:var(--serif);
   font-style:italic;
-  font-size:clamp(1rem, 2.4vw, 1.28rem);
+  font-size:clamp(1rem, 2.4vw, 1.24rem);
   line-height:1.6;
-  color:#4a423a;
+  color:#4a5058;
 }
 .personal strong{
   font-style:normal;
@@ -182,17 +290,19 @@ a{ color:var(--gold); }
   padding-bottom:1px;
 }
 
+.hero .countdown{ margin-top:clamp(1.8rem, 4.5vw, 2.6rem); }
+
 .scroll-cue{
   position:absolute;
   left:50%;
-  bottom:clamp(22px, 5vw, 42px);
+  bottom:clamp(18px, 4vw, 34px);
   transform:translateX(-50%);
-  z-index:1;
-  color:var(--gold);
+  z-index:2;
+  color:var(--blue);
   text-decoration:none;
-  font-size:1.4rem;
+  font-size:1.3rem;
   line-height:1;
-  opacity:.75;
+  opacity:.7;
   animation:bob 2.4s ease-in-out infinite;
 }
 @keyframes bob{
@@ -200,39 +310,41 @@ a{ color:var(--gold); }
   50%    { transform:translate(-50%, 7px); }
 }
 
-/* ============ 4. ТАЙМЕР ============ */
+/* ============ 5. ТАЙМЕР ============ */
 .countdown{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  gap:clamp(.6rem, 2.5vw, 1.6rem);
-  max-width:660px;
+  gap:clamp(.55rem, 2.2vw, 1.4rem);
+  max-width:620px;
   margin:0 auto;
 }
 .cd-item{
-  background:#fff;
-  border:1px solid var(--line);
+  background:rgba(255,255,255,.8);
+  border:1px solid var(--blue-soft);
   border-radius:6px;
-  padding:clamp(1rem, 3vw, 1.6rem) .4rem;
+  padding:clamp(.85rem, 2.6vw, 1.4rem) .4rem;
   text-align:center;
+  backdrop-filter:blur(2px);
 }
 .cd-num{
   display:block;
   font-family:var(--serif);
-  font-size:clamp(1.7rem, 6vw, 2.9rem);
+  font-size:clamp(1.6rem, 5.6vw, 2.7rem);
   font-weight:400;
   line-height:1;
   font-variant-numeric:tabular-nums;
+  color:var(--ink);
 }
 .cd-label{
   display:block;
-  margin-top:.55rem;
-  font-size:.62rem;
+  margin-top:.5rem;
+  font-size:.6rem;
   letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--muted);
 }
 
-/* ============ 5. КАРТОЧКИ ДЕТАЛЕЙ ============ */
+/* ============ 6. КАРТОЧКИ ДЕТАЛЕЙ ============ */
 .details-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
@@ -244,11 +356,12 @@ a{ color:var(--gold); }
   border-radius:6px;
   padding:2.2rem 1.5rem;
   text-align:center;
-  transition:transform .35s ease, box-shadow .35s ease;
+  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
 .card:hover{
   transform:translateY(-4px);
-  box-shadow:0 16px 36px -22px rgba(43,38,34,.35);
+  box-shadow:0 16px 36px -22px rgba(42,48,56,.35);
+  border-color:var(--blue-soft);
 }
 .card__icon{
   color:var(--gold);
@@ -282,13 +395,13 @@ a{ color:var(--gold); }
   text-transform:uppercase;
   text-decoration:none;
   color:var(--ink);
-  border-bottom:1px solid var(--gold-soft);
+  border-bottom:1px solid var(--blue-soft);
   padding-bottom:3px;
   transition:color .25s;
 }
-.card a.map-link:hover{ color:var(--gold); }
+.card a.map-link:hover{ color:var(--blue); }
 
-/* ============ 6. ТАЙМЛАЙН ============ */
+/* ============ 7. ТАЙМЛАЙН ============ */
 .timeline{
   list-style:none;
   padding:0;
@@ -301,7 +414,7 @@ a{ color:var(--gold); }
   gap:1.4rem;
   align-items:baseline;
   padding:1.15rem 0;
-  border-bottom:1px solid var(--line);
+  border-bottom:1px solid var(--blue-soft);
 }
 .timeline li:last-child{ border-bottom:none; }
 .timeline .t{
@@ -310,127 +423,36 @@ a{ color:var(--gold); }
   color:var(--gold);
   font-variant-numeric:tabular-nums;
 }
-.timeline .d{
-  font-size:1rem;
-}
+.timeline .d{ font-size:1rem; }
 .timeline .d span{
   display:block;
   font-size:.82rem;
   color:var(--muted);
 }
 
-/* ============ 7. DRESS CODE ============ */
-.palette{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:1.1rem;
-  margin-top:2.4rem;
-}
-.palette i{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:var(--c);
-  border:1px solid rgba(0,0,0,.06);
-  box-shadow:0 10px 22px -16px rgba(43,38,34,.55);
-}
-
-/* ============ 8. ФОРМА RSVP ============ */
-.form{
-  max-width:520px;
-  margin:0 auto;
-  display:grid;
-  gap:1.35rem;
-}
-.field label{
-  display:block;
-  font-size:.68rem;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:.5rem;
-}
-.field input,
-.field select,
-.field textarea{
-  width:100%;
-  padding:.85rem 1rem;
-  border:1px solid var(--line);
-  border-radius:4px;
-  background:#fff;
-  font-family:inherit;
-  font-size:1rem;
-  font-weight:300;
-  color:var(--ink);
-  transition:border-color .25s, box-shadow .25s;
-}
-.field textarea{ resize:vertical; min-height:96px; }
-.field input:focus,
-.field select:focus,
-.field textarea:focus{
-  outline:none;
-  border-color:var(--gold);
-  box-shadow:0 0 0 3px rgba(176,141,87,.13);
-}
-
-.radios{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:.7rem;
-}
-.radios label{ cursor:pointer; }
-.radios input{
-  position:absolute;
-  opacity:0;
-  width:0;
-  height:0;
-}
-.radios span{
-  display:block;
-  padding:.8rem .6rem;
-  border:1px solid var(--line);
-  border-radius:4px;
-  background:#fff;
-  text-align:center;
-  font-size:.88rem;
-  line-height:1.4;
-  transition:background .25s, color .25s, border-color .25s;
-}
-.radios input:checked + span{
-  background:var(--ink);
-  border-color:var(--ink);
-  color:#fff;
-}
-.radios input:focus-visible + span{
-  box-shadow:0 0 0 3px rgba(176,141,87,.25);
-}
-
+/* ============ 8. RSVP ============ */
+.rsvp-cta{ text-align:center; }
 .btn{
-  width:100%;
-  padding:1.05rem 2rem;
-  border:none;
+  display:inline-block;
+  padding:1.05rem 2.6rem;
   border-radius:4px;
-  background:var(--ink);
+  background:var(--gold);
   color:#fff;
   font-family:var(--sans);
   font-size:.78rem;
   font-weight:400;
   letter-spacing:.24em;
   text-transform:uppercase;
+  text-decoration:none;
   cursor:pointer;
-  transition:background .3s, transform .15s;
+  transition:background .3s, transform .15s, box-shadow .3s;
+  box-shadow:0 14px 30px -22px rgba(176,141,87,.9);
 }
-.btn:hover{ background:var(--gold); }
+.btn:hover{
+  background:var(--ink);
+  box-shadow:0 14px 30px -18px rgba(42,48,56,.7);
+}
 .btn:active{ transform:scale(.99); }
-
-.form-status{
-  margin:0;
-  min-height:1.4em;
-  font-size:.85rem;
-  color:var(--muted);
-  text-align:center;
-}
 
 /* ============ 9. ПОДВАЛ ============ */
 .footer{
@@ -438,7 +460,35 @@ a{ color:var(--gold); }
   text-align:center;
   background:var(--bg-alt);
   border-top:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
 }
+
+/* Починенный разделитель — чистый CSS: линия + ромб + линия */
+.footer-divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1rem;
+  margin:0 0 1.2rem;
+}
+.footer-divider span{
+  height:1px;
+  width:min(60px, 15vw);
+  background:linear-gradient(90deg, transparent, var(--gold-soft));
+}
+.footer-divider span:last-child{
+  background:linear-gradient(270deg, transparent, var(--gold-soft));
+}
+.footer-divider i{
+  display:block;
+  width:7px;
+  height:7px;
+  background:var(--blue);
+  transform:rotate(45deg);
+  box-shadow:0 0 0 3px rgba(93,127,176,.22);
+}
+
 .footer .names-sm{
   font-family:var(--serif);
   font-size:1.7rem;
@@ -469,10 +519,9 @@ a{ color:var(--gold); }
 
 /* ============ 11. МЕДИА ============ */
 @media (max-width:640px){
-  .radios{ grid-template-columns:1fr; }
   .timeline li{ grid-template-columns:74px 1fr; gap:1rem; }
   .timeline .t{ font-size:1.15rem; }
-  .palette i{ width:48px; height:48px; }
+  .decor-img{ width:80px; opacity:.22; }
 }
 
 @media (max-width:360px){
@@ -492,6 +541,8 @@ a{ color:var(--gold); }
 <!-- ==================== HERO ==================== -->
 <header class="hero">
   <div class="hero__inner">
+    <div class="hero-ornament" aria-hidden="true"><i></i></div>
+
     <p class="eyebrow">Мы приглашаем вас на нашу свадьбу</p>
 
     <h1 class="names">Александра <span class="amp">&amp;</span> Иван</h1>
@@ -502,6 +553,14 @@ a{ color:var(--gold); }
     <p class="personal" id="guest-line">
       Мы будем счастливы видеть вас на нашей свадьбе
     </p>
+
+    <!-- Таймер на первом экране -->
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd-item"><span class="cd-num" id="cd-days">00</span><span class="cd-label" id="cd-days-l">дней</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-hours">00</span><span class="cd-label" id="cd-hours-l">часов</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-mins">00</span><span class="cd-label" id="cd-mins-l">минут</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-secs">00</span><span class="cd-label" id="cd-secs-l">секунд</span></div>
+    </div>
   </div>
 
   <a class="scroll-cue" href="#invitation" aria-label="Листать вниз">&#8595;</a>
@@ -510,14 +569,13 @@ a{ color:var(--gold); }
 
 <!-- ==================== ВСТУПЛЕНИЕ ==================== -->
 <section class="section" id="invitation">
+  <!-- Если хотите картинку-декор вместо CSS-уголков:
+       <img class="decor-img decor-img--tr" src="img/ornament-tr.png" alt=""
+            onerror="this.style.display='none'"> -->
   <div class="wrap reveal">
     <h2 class="section-title">Дорогие друзья и близкие!</h2>
     <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
+      <span></span><i></i><span></span>
     </div>
     <p class="section-sub" style="margin-bottom:0">
       В этот день мы хотим быть окружены самыми дорогими людьми.
@@ -528,38 +586,12 @@ a{ color:var(--gold); }
 </section>
 
 
-<!-- ==================== ТАЙМЕР ==================== -->
-<section class="section section--alt" id="countdown-section">
-  <div class="wrap reveal">
-    <h2 class="section-title">До нашего дня осталось</h2>
-    <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
-    </div>
-
-    <div class="countdown" id="countdown" aria-live="polite">
-      <div class="cd-item"><span class="cd-num" id="cd-days">00</span><span class="cd-label" id="cd-days-l">дней</span></div>
-      <div class="cd-item"><span class="cd-num" id="cd-hours">00</span><span class="cd-label" id="cd-hours-l">часов</span></div>
-      <div class="cd-item"><span class="cd-num" id="cd-mins">00</span><span class="cd-label" id="cd-mins-l">минут</span></div>
-      <div class="cd-item"><span class="cd-num" id="cd-secs">00</span><span class="cd-label" id="cd-secs-l">секунд</span></div>
-    </div>
-  </div>
-</section>
-
-
 <!-- ==================== ДЕТАЛИ ==================== -->
-<section class="section" id="details">
+<section class="section section--alt" id="details">
   <div class="wrap reveal">
     <h2 class="section-title">Детали торжества</h2>
     <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
+      <span></span><i></i><span></span>
     </div>
 
     <div class="details-grid">
@@ -596,11 +628,10 @@ a{ color:var(--gold); }
           </svg>
         </span>
         <h3>Где</h3>
-        <p>Банкетный зал<br>«Банкетный зал</p>
+        <p>Банкетный зал<br>Премиум голд</p>
         <p class="small">АСТРАХАНЬ</p>
-        <!-- Замените ссылку на актуальную -->
         <a class="map-link"
-           href="https://yandex.ru/maps/?text=Московская%20область%20Одинцовский%20район%20Лесная%20усадьба"
+           href="https://yandex.ru/maps/-/CXWTJU~Z"
            target="_blank" rel="noopener noreferrer">Открыть карту</a>
       </article>
 
@@ -610,15 +641,11 @@ a{ color:var(--gold); }
 
 
 <!-- ==================== ПРОГРАММА ДНЯ ==================== -->
-<section class="section section--alt" id="timeline">
+<section class="section section--mist" id="timeline">
   <div class="wrap reveal">
     <h2 class="section-title">Программа дня</h2>
     <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
+      <span></span><i></i><span></span>
     </div>
 
     <ul class="timeline">
@@ -632,108 +659,47 @@ a{ color:var(--gold); }
 </section>
 
 
-<!-- ==================== DRESS CODE ==================== -->
-<section class="section" id="dresscode">
-  <div class="wrap reveal">
-    <h2 class="section-title">Дресс-код</h2>
-    <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
-    </div>
-    <p class="section-sub">
-      Мы будем рады, если в своих нарядах вы поддержите палитру нашего праздника —
-      мягкие природные оттенки.
-    </p>
-
-    <div class="palette" aria-label="Палитра дресс-кода">
-      <i style="--c:#f0e6d8" title="Слоновая кость"></i>
-      <i style="--c:#dfcdb6" title="Бежевый"></i>
-      <i style="--c:#c8b39a" title="Песочный"></i>
-      <i style="--c:#a8b49a" title="Шалфейный"></i>
-      <i style="--c:#8e9c8a" title="Оливковый"></i>
-      <i style="--c:#c9a9a6" title="Пудровый"></i>
-      <i style="--c:#8b7a6b" title="Тауп"></i>
-    </div>
-  </div>
-</section>
-
-
-<!-- ==================== RSVP ==================== -->
+<!-- ==================== RSVP — Яндекс Форма ==================== -->
 <section class="section section--alt" id="rsvp">
   <div class="wrap reveal">
     <h2 class="section-title">Подтвердите присутствие</h2>
     <div class="divider" aria-hidden="true">
-      <span></span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M12 3l3.2 9L12 21l-3.2-9L12 3z"/>
-      </svg>
-      <span></span>
+      <span></span><i></i><span></span>
     </div>
     <p class="section-sub">
-      Пожалуйста, дайте нам знать до <strong>1 января 2027</strong> —
+      Пожалуйста, заполните короткую анкету до <strong>1 января 2027</strong> —
       так мы сможем позаботиться о каждом госте.
     </p>
 
-    <form class="form" id="rsvp-form" novalidate>
-      <div class="field">
-        <label for="guest">Ваше имя</label>
-        <input type="text" id="guest" name="guest" placeholder="Имя и фамилия" autocomplete="name" required>
-      </div>
-
-      <div class="field">
-        <label>Сможете ли вы приехать?</label>
-        <div class="radios">
-          <label>
-            <input type="radio" name="attend" value="Обязательно буду" checked>
-            <span>Обязательно буду</span>
-          </label>
-          <label>
-            <input type="radio" name="attend" value="К сожалению, не смогу">
-            <span>К сожалению, не смогу</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="count">Количество гостей</label>
-        <select id="count" name="count">
-          <option value="1">1 человек</option>
-          <option value="2">2 человека</option>
-          <option value="3">3 человека</option>
-          <option value="4">4 человека</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="wishes">Пожелания</label>
-        <textarea id="wishes" name="wishes"
-                  placeholder="Аллергии, предпочтения по напиткам, детское меню…"></textarea>
-      </div>
-
-      <button class="btn" type="submit">Отправить ответ</button>
-      <p class="form-status" id="form-status" role="status"></p>
-    </form>
+    <div class="rsvp-cta">
+      <!-- Замените ссылку на вашу Яндекс Форму -->
+      <a class="btn"
+         id="rsvp-link"
+         href="https://forms.yandex.ru/u/XXXXXXXXXXXXXXX/"
+         target="_blank" rel="noopener noreferrer">
+        Перейти к анкете
+      </a>
+    </div>
   </div>
 </section>
 
 
 <!-- ==================== ПОДВАЛ ==================== -->
 <footer class="footer">
+  <div class="footer-divider" aria-hidden="true">
+    <span></span><i></i><span></span>
+  </div>
   <p class="names-sm">Александра <span class="amp">&amp;</span> Иван</p>
-  <p>С любовью &middot; 12.09.2026</p>
+  <p>С любовью &middot; 07.08.2027</p>
 </footer>
 
 
 <script>
 /* ==========================================================================
-   1. КОНФИГУРАЦИЯ — меняйте только здесь
+   1. КОНФИГУРАЦИЯ
    ========================================================================== */
 const CONFIG = {
-  weddingDate: '2027-08-07T18:00:00+04:00', // дата и время начала (МСК)
-  rsvpEmail:   'rsvp@example.com',          // ← ВАШ e-mail для ответов
+  weddingDate: '2027-08-07T18:00:00+04:00', // Астрахань, UTC+4
   defaultLine: 'Мы будем счастливы видеть вас на нашей свадьбе'
 };
 
@@ -742,26 +708,28 @@ const CONFIG = {
    2. ПЕРСОНАЛИЗАЦИЯ ИМЕНИ ИЗ URL (?name=...)
    ========================================================================== */
 (function personalize () {
-  const params = new URLSearchParams(window.location.search);
+  const params  = new URLSearchParams(window.location.search);
   const rawName = (params.get('name') || params.get('to') || params.get('guest') || '').trim();
   if (!rawName) return;
 
   const line = document.getElementById('guest-line');
-  if (!line) return;
+  if (line) {
+    line.textContent = '';
+    const strong = document.createElement('strong');
+    strong.textContent = rawName;
+    line.append(strong, ', ' + CONFIG.defaultLine.toLowerCase());
+  }
 
-  // textContent — безопасно, HTML/скрипты из URL не исполнятся
-  line.textContent = '';
-  const strong = document.createElement('strong');
-  strong.textContent = rawName;
-  line.append(strong, ', ' + CONFIG.defaultLine.toLowerCase().replace(/^мы /, 'мы '));
-  // Итог: «Иван, мы будем счастливы видеть вас на нашей свадьбе»
-
-  // Заодно подставляем имя в форму
-  const guestInput = document.getElementById('guest');
-  if (guestInput) guestInput.value = rawName;
-
-  // И в заголовок вкладки
   document.title = rawName + ' — Александра & Иван, 07.08.2027';
+
+  const link = document.getElementById('rsvp-link');
+  if (link && link.href && !link.href.includes('XXXXXXXX')) {
+    try {
+      const u = new URL(link.href);
+      u.searchParams.set('name', rawName);
+      link.href = u.toString();
+    } catch (e) { /* битая ссылка — молча пропускаем */ }
+  }
 })();
 
 
@@ -781,7 +749,6 @@ const CONFIG = {
 
   const pad = n => String(n).padStart(2, '0');
 
-  // 1 день / 2 дня / 5 дней
   function plural (n, forms) {
     const n10 = n % 10, n100 = n % 100;
     if (n10 === 1 && n100 !== 11) return forms[0];
@@ -823,47 +790,7 @@ const CONFIG = {
 
 
 /* ==========================================================================
-   4. RSVP — отправка через mailto (без бэкенда)
-   ========================================================================== */
-(function rsvp () {
-  const form   = document.getElementById('rsvp-form');
-  const status = document.getElementById('form-status');
-  if (!form) return;
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const data = new FormData(form);
-    const guest  = (data.get('guest') || '').toString().trim();
-    const attend = data.get('attend') || '—';
-    const count  = data.get('count') || '—';
-    const wishes = (data.get('wishes') || '').toString().trim() || '—';
-
-    if (!guest) {
-      status.textContent = 'Пожалуйста, укажите ваше имя.';
-      document.getElementById('guest').focus();
-      return;
-    }
-
-    const subject = 'Ответ на приглашение — ' + guest;
-    const body =
-      'Имя: ' + guest + '\n' +
-      'Присутствие: ' + attend + '\n' +
-      'Количество гостей: ' + count + '\n' +
-      'Пожелания: ' + wishes;
-
-    const href = 'mailto:' + CONFIG.rsvpEmail +
-                 '?subject=' + encodeURIComponent(subject) +
-                 '&body='    + encodeURIComponent(body);
-
-    window.location.href = href;
-    status.textContent = 'Открываем почтовое приложение… Если ничего не произошло, напишите нам напрямую.';
-  });
-})();
-
-
-/* ==========================================================================
-   5. ПЛАВНОЕ ПОЯВЛЕНИЕ БЛОКОВ ПРИ СКРОЛЛЕ
+   4. ПЛАВНОЕ ПОЯВЛЕНИЕ БЛОКОВ ПРИ СКРОЛЛЕ
    ========================================================================== */
 (function reveal () {
   const items = document.querySelectorAll('.reveal');
